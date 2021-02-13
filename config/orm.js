@@ -21,3 +21,34 @@ function objToSql(ob) {
 
     return arr.toString();
 }
+
+var orm = {
+    selectAll: function (tableInput, cb) {
+        connection.query("SELECT * FROM ??;", [tableInput], function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
+    },
+    insertOne: function (table, cols, vals, cb) {
+        connection.query("INSERT INTO ?? (??) VALUES (?);", [table, cols, vals], function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
+    },
+
+    updateOne: function (table, objColVals, condition, cb) {
+        connection.query("UPDATE ?? SET ? WHERE ?;", [table, objColVals, condition], function (err, result) {
+            if (err) {
+                throw err;
+            }
+
+            cb(result);
+        });
+    }
+};
+
+module.exports = orm;
